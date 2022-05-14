@@ -12,3 +12,7 @@ May I? is a Messages application where you can send messages all over the globe 
 - #### Reverse Proxy: to seperate the Request to the backend or frontend. Probably HAproxy.
 - #### Load Balancer: to load balance between the MicroServices, Default Round Robin. Probably HAproxy.
 - #### note: Reverse Proxy & Load balancer is in the same instance (HAproxy), not seperate instances.
+- ### Database Design:
+- #### User Table: username varchar(35) [PK, NN], UUID varchar(36) [NN], password varchar(32) [NN], public_key(145) [NN] around 145 max characters if RSA 512 bit (i didn't do the math yet)
+- #### Public_key_record: username [FK, NN], public_key [FK, NN] and both are Composite key
+- #### Public_key_logs: username [FK, NN], UUID [FK, NN], old_public_key varchar(145), new_public_key varchar(145) [NN], updated_at date [NN]
