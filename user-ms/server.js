@@ -19,5 +19,15 @@ const pool = new Pool({
 })
 
 
+app.get('/api/record', (req,res)=>{
+    pool.query('SELECT username, public_key FROM users', (err, data)=>{
+        if(err){
+            console.log(err)
+            res.json({'error':err.detail})
+        }else{
+            res.status(200).json(data.rows)
+        }
+    })
+})
 
 app.listen(3000)
