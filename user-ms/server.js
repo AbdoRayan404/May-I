@@ -65,5 +65,22 @@ app.post('/api/register', (req,res)=>{
     })
 })
 
+app.post('/api/login', (req, res)=>{
+    let {username, password} = req.body;
+
+    pool.query(`SELECT password = '${password}', username, public_key FROM users WHERE username = '${username}'`, (err, data)=>{
+        if(err){
+            res.status(401).json({'error': err.detail})
+        }else{
+            //if password is wrong
+            if(data.rows[0]['?column?'] == false){
+                res.status(401).json({'unauthorized': 'password is wrong.'})
+            }else{
+                res.status(200).json({'username': data.rows[0]['username'], 'public_key': data.rows[0]['public_key']})
+            }
+        }
+    })
+})
+
 
 app.listen(3000)
