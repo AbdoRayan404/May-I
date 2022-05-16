@@ -1,20 +1,30 @@
 const { v4:uuidv4 } = require('uuid');
+const pool = require('../Model/database')
 
-async function public_key_record (req, res, next){
+async function public_key_record(req, res, next){
+    let query = {
+        method: 'SELECT',
+        coulmns: 'username, public_key',
+        table: 'users',
+        limit: '100'
+    }
 
+    const record = await pool.query(`${query.method} ${query.coulmns} FROM ${query.table} LIMIT ${query.limit}`)
 
+    try{
+        res.status(200).json(record.rows)
 
-    pool.query('SELECT username, public_key FROM users', (err, data)=>{
-        if(err){
-            console.log(err)
-            res.json({'error':err.detail})
-        }else{
-            res.status(200).json(data.rows)
-        }
-    })
+        next(query)
+    }catch(err){
+        next({
+            method: 'error',
+            status: 500,
+            msg: 'there was error reteriving the data.'
+        })
+    }
 }
 
-app.post('/api/register', (req,res)=>{
+const a = ('/api/register', (req,res)=>{
     let {username, password, public_key} = req.body;
     let uuid = uuidv4();
 
@@ -49,7 +59,7 @@ app.post('/api/register', (req,res)=>{
     })
 })
 
-app.post('/api/login', (req, res)=>{
+const e = ('/api/login', (req, res)=>{
     let {username, password} = req.body;
 
     pool.query(`SELECT password = '${password}', username, public_key FROM users WHERE username = '${username}'`, (err, data)=>{
@@ -65,3 +75,7 @@ app.post('/api/login', (req, res)=>{
         }
     })
 })
+
+module.exports = {
+    public_record : public_key_record
+}
