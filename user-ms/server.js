@@ -16,8 +16,7 @@ const userRouter = require('./routes/user');
 //routes
 app.use(logger)
 app.use('/api/record', recordRouter, dbLogger)
-app.use('/api/register', userRouter, dbLogger)
-app.use('/api/login', userRouter, dbLogger)
+app.use('/api/', userRouter, dbLogger)
 app.use(errHandle)
 
 

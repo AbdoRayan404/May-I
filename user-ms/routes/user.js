@@ -86,7 +86,7 @@ async function login(req, res, next){
 }
 
 router
-    .post('/', login)
-    .post('/', register)
+    .post('/login', login)
+    .post('/register', register)
 
 module.exports = router
