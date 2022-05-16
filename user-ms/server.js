@@ -7,14 +7,17 @@ const app = express();
 app.use(express.json());
 
 // exports
-const {logger, dbLogger, errHandle} = require('./routes/middlewares');
-const {public_record, register, login} = require('./routes/api')
+const logger = require('./middlewares/loggers/reqLogger')
+const dbLogger = require('./middlewares/loggers/databaseLogger')
+const errHandle = require('./middlewares/handlers/errHandler')
+const recordRouter = require('./routes/record')
+const userRouter = require('./routes/user');
 
 //routes
 app.use(logger)
-app.use('/api/record', public_record, dbLogger)
-app.use('/api/register', register, dbLogger)
-app.use('/api/login', login, dbLogger)
+app.use('/api/record', recordRouter, dbLogger)
+app.use('/api/register', userRouter, dbLogger)
+app.use('/api/login', userRouter, dbLogger)
 app.use(errHandle)
 
 
