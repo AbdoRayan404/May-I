@@ -24,40 +24,51 @@ async function public_key_record(req, res, next){
     }
 }
 
-const a = ('/api/register', (req,res)=>{
+async function register(req, res, next){
     let {username, password, public_key} = req.body;
     let uuid = uuidv4();
 
     //INPUT CHECK
-    if(username.length > 36 || username.length < 4){
-        res.status(401).json({'error':'username is too short or too long'})
-        return
-    }
-    if(password.length > 32 || password.length < 8){
-        res.status(401).json({'error':'password is too short or too long.'})
-        return
-    }
-    if(!public_key){
-        res.status(401).json({'error':'you should provide a public_key'})
-        return
+    if(!username.match(/^[A-z]{4,36}$/g)) next({
+        method: 'error',
+        status: 401,
+        msg:'username should be between 4-36 A-Z'
+    })
+
+    if(!password.match(/^.{8,32}$/gi)) next({
+        method: 'error',
+        status: 401,
+        msg: 'password should be between 8-32'
+    })
+
+    if(public_key.length > 145) next({
+        method: 'error',
+        status: 401,
+        msg: 'public key cannot be more than 145 chars'
+    })
+
+    //database insertion
+    let query = {
+        method: 'INSERT',
+        table: 'users',
+        coulmns: `username, password, UUID, public_key`,
+        values: `'${username}', '${password}', '${uuid}', '${public_key}'`
     }
 
-    pool.query(`INSERT INTO users(username, password, UUID, public_key) VALUES('${username}', '${password}', '${uuid}', '${public_key}')`, (err, data)=>{
-        if(err){
-            res.status(401).json({'error':err.detail})
-        }
-        else{
-            pool.query(`SELECT username, public_key FROM users WHERE username = '${username}'`, (error, saved)=>{
-                if(error){
-                    console.log(error)
-                    res.status(500).json({'error':"your data was inserted but couldn't reterive it."})
-                }else{
-                    res.status(200).json(saved.rows)
-                }
-            })
-        }
-    })
-})
+    const registerData = await pool.query(`${query.method} INTO ${query.table}(${query.coulmns}) VALUES(${query.values})`)
+
+    try{
+        res.status(200).json({'username': username, 'public_key': public_key})
+        
+        next(query)
+    }catch(err){
+        next({
+            method: 'error',
+            status: 500,
+            msg: 'there was error saving your data.'
+        })
+    }
+}
 
 const e = ('/api/login', (req, res)=>{
     let {username, password} = req.body;
@@ -77,5 +88,6 @@ const e = ('/api/login', (req, res)=>{
 })
 
 module.exports = {
-    public_record : public_key_record
+    public_record : public_key_record,
+    register: register
 }
