@@ -70,24 +70,43 @@ async function register(req, res, next){
     }
 }
 
-const e = ('/api/login', (req, res)=>{
+async function login(req, res, next){
     let {username, password} = req.body;
 
-    pool.query(`SELECT password = '${password}', username, public_key FROM users WHERE username = '${username}'`, (err, data)=>{
-        if(err){
-            res.status(401).json({'error': err.detail})
+    let query = {
+        method: 'SELECT',
+        coulmns: `password = '${password}', username, public_key`,
+        table: 'users',
+        condition: 'WHERE',
+        conditionKey: 'username',
+        conditionValue: `'${username}'`
+    }
+
+    const userData = await pool.query(`${query.method} ${query.coulmns} FROM ${query.table} WHERE ${query.conditionKey} = ${query.conditionValue}`)
+
+    try{
+        if(userData.rows[0]['?coulmn?'] == false){
+            next({
+                method: 'error',
+                status: 401,
+                msg: 'password is incorrect'
+            })
         }else{
-            //if password is wrong
-            if(data.rows[0]['?column?'] == false){
-                res.status(401).json({'unauthorized': 'password is wrong.'})
-            }else{
-                res.status(200).json({'username': data.rows[0]['username'], 'public_key': data.rows[0]['public_key']})
-            }
+            res.status(200).json({'username': userData.rows[0]['username'], 'public_key': userData.rows[0]['public_key']})
+        
+            next(query)
         }
-    })
-})
+    }catch(err){
+        next({
+            method:'error',
+            status: 500,
+            msg: 'there was error reteriving your data.'
+        })
+    }
+}
 
 module.exports = {
     public_record : public_key_record,
-    register: register
+    register: register,
+    login: login
 }
