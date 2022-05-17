@@ -32,9 +32,9 @@ async function register(req, res, next){
         values: `'${username}', '${password}', '${uuid}', '${public_key}'`
     }
 
-    const registerData = await pool.query(`${query.method} INTO ${query.table}(${query.coulmns}) VALUES(${query.values})`)
-
     try{
+        const registerData = await pool.query(`${query.method} INTO ${query.table}(${query.coulmns}) VALUES(${query.values})`)
+
         res.status(200).json({'username': username, 'public_key': public_key})
         
         next(query)
@@ -59,9 +59,9 @@ async function login(req, res, next){
         conditionValue: `'${username}'`
     }
 
-    const userData = await pool.query(`${query.method} ${query.coulmns} FROM ${query.table} WHERE ${query.conditionKey} = ${query.conditionValue}`)
-
     try{
+        const userData = await pool.query(`${query.method} ${query.coulmns} FROM ${query.table} WHERE ${query.conditionKey} = ${query.conditionValue}`)
+
         if(userData.rows[0]['?coulmn?'] == false){
             next({
                 method: 'error',

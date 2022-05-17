@@ -10,9 +10,9 @@ async function public_key_record(req, res, next){
         limit: '100'
     }
 
-    const record = await pool.query(`${query.method} ${query.coulmns} FROM ${query.table} LIMIT ${query.limit}`)
-
     try{
+        const record = await pool.query(`${query.method} ${query.coulmns} FROM ${query.table} LIMIT ${query.limit}`)
+
         res.status(200).json(record.rows)
 
         next(query)
