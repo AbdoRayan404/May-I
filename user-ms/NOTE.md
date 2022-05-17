@@ -10,7 +10,8 @@ this microservice is related to user stuff like (Login, Register, Update_public_
 - Register API route (done)
 - Login API route (done)
 - public keys record API route (done)
-- update public key API route
-- Migrate JWT
+- update public key API route (done)
 - SQL Injection Check
 - Limit database return (public keys record API route)
+- Requests limiter to sepcific routes
+- hashing passwords
