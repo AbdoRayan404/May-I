@@ -82,7 +82,35 @@ async function login(req, res, next){
     }
 }
 
+async function update(req, res, next){
+    let {username, password, public_key} = req.body;
+
+    let query = {
+        method: "UPDATE",
+        table: "users",
+        coulmn: 'public_key',
+        coulmnValue: public_key,
+        conditionUsername: `username = '${username}'`,
+        conditionPassword: `password = '${password}'`
+    }
+
+    try{
+        const updatedData = await pool.query(`${query.method} ${query.table} SET ${query.coulmn} = '${query.coulmnValue}' WHERE ${query.conditionUsername} AND ${query.conditionPassword}`)
+        
+        res.json({'username': username, 'public_key': public_key})
+
+        next(query)
+    }catch(err){
+        next({
+            method: 'error',
+            status: 500,
+            msg: 'there was error reteriving your data.'
+        })
+    }
+}
+
 module.exports = {
     register: register,
-    login: login
+    login: login,
+    update: update
 }

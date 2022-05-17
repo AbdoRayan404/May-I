@@ -11,6 +11,9 @@ async function databaseLogger(data, req, res, next){
     else if(data.method == 'INSERT'){
         console.log(`[INFO] ${data.method} into ${data.table} table where coulmns (${data.coulmns}) is (${data.values})`)
     }
+    else if(data.method == 'UPDATE'){
+        console.log(`[INFO] ${data.method} ${data.table} table, coulmns ${data.coulmn} changed to ${data.coulmnValue} WHERE ${data.conditionUsername} AND ${data.conditionPassword}`)
+    }
     
 }
 
