@@ -3,22 +3,22 @@ const { v4:uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 
 //config imports
-let { salt } = require('../config/env')
+let { SALT } = require('../config/env')
 
 async function register(req, res, next){
     let {username, password, public_key} = req.body;
     let uuid = uuidv4();
 
     //hashing
-    salt = await bcrypt.genSalt(Number.parseInt(salt))
-    password = await bcrypt.hash(password, salt)
+    SALT = await bcrypt.genSalt(Number.parseInt(SALT))
+    password = await bcrypt.hash(password, SALT)
 
     //database insertion
     let query = {
         method: 'INSERT',
         table: 'users',
-        coulmns: `username, password, UUID, public_key, salt`,
-        values: `'${username}', '${password}', '${uuid}', '${public_key}', '${salt}'`
+        coulmns: `username, password, UUID, public_key, SALT`,
+        values: `'${username}', '${password}', '${uuid}', '${public_key}', '${SALT}'`
     }
 
     try{
