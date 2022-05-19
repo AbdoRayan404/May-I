@@ -1,35 +1,24 @@
 const pool = require('../Model/database')
 const { v4:uuidv4 } = require('uuid');
+const bcrypt = require('bcrypt');
+
+//config imports
+let { salt } = require('../config/env')
 
 async function register(req, res, next){
     let {username, password, public_key} = req.body;
     let uuid = uuidv4();
 
-    //INPUT CHECK
-    if(!username.match(/^[A-z]{4,36}$/g)) next({
-        method: 'error',
-        status: 401,
-        msg:'username should be between 4-36 A-Z'
-    })
-
-    if(!password.match(/^.{8,32}$/gi)) next({
-        method: 'error',
-        status: 401,
-        msg: 'password should be between 8-32'
-    })
-
-    if(public_key.length > 145) next({
-        method: 'error',
-        status: 401,
-        msg: 'public key cannot be more than 145 chars'
-    })
+    //hashing
+    salt = await bcrypt.genSalt(Number.parseInt(salt))
+    password = await bcrypt.hash(password, salt)
 
     //database insertion
     let query = {
         method: 'INSERT',
         table: 'users',
-        coulmns: `username, password, UUID, public_key`,
-        values: `'${username}', '${password}', '${uuid}', '${public_key}'`
+        coulmns: `username, password, UUID, public_key, salt`,
+        values: `'${username}', '${password}', '${uuid}', '${public_key}', '${salt}'`
     }
 
     try{
