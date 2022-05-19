@@ -13,5 +13,5 @@ this microservice is related to user stuff like (Login, Register, Update_public_
 - update public key API route (done)
 - SQL Injection Check
 - Limit database return (public keys record API route)
-- Requests limiter to sepcific routes
-- hashing passwords
+- Requests limiter to sepcific routes (done)
+- hashing passwords (done)
