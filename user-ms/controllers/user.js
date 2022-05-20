@@ -39,6 +39,19 @@ async function register(req, res, next){
 async function login(req, res, next){
     let {username, password} = req.body;
 
+    try{
+        const userSalt = await pool.query(`SELECT salt FROM users WHERE username = '${username}'`)
+        const hashed = await bcrypt.hash(password, userSalt.rows[0]['salt'])
+        
+        password = hashed
+    }catch(error){
+        next({
+            method: 'error',
+            status: 500,
+            msg: 'there was error hashing your password.'
+        })
+    }
+
     let query = {
         method: 'SELECT',
         coulmns: `password = '${password}', username, public_key`,
@@ -51,7 +64,7 @@ async function login(req, res, next){
     try{
         const userData = await pool.query(`${query.method} ${query.coulmns} FROM ${query.table} WHERE ${query.conditionKey} = ${query.conditionValue}`)
 
-        if(userData.rows[0]['?coulmn?'] == false){
+        if(userData.rows[0]['?column?'] == false){
             next({
                 method: 'error',
                 status: 401,
