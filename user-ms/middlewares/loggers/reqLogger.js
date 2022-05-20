@@ -1,5 +1,5 @@
 async function reqLogger(req, res, next){
-    console.log(`[INFO] ${req.method} request to ${req.path} from ${req.ip}`)
+    console.log(`[INFO] ${req.ip} [${new Date().toDateString()}] "${req.method} ${req.path} ${req.protocol}"`)
     next();
 }
 
