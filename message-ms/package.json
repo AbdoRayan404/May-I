@@ -1,0 +1,26 @@
+{
+  "name": "may-i-message-ms",
+  "version": "1.0.0",
+  "description": "May I messages-related Microservice",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Terry-404/May-I.git"
+  },
+  "author": "terry-404",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Terry-404/May-I/issues"
+  },
+  "homepage": "https://github.com/Terry-404/May-I#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
