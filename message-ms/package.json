@@ -17,10 +17,11 @@
     "url": "https://github.com/Terry-404/May-I/issues"
   },
   "homepage": "https://github.com/Terry-404/May-I#readme",
-  "dependencies": {
-    "express": "^4.18.1"
-  },
   "devDependencies": {
     "nodemon": "^2.0.16"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "ws": "^8.6.0"
   }
 }
