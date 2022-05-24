@@ -91,6 +91,19 @@ async function login(req, res, next){
 
 async function update(req, res, next){
     let {address, password, public_key} = req.body;
+    
+    try{
+        const userSalt = await pool.query(`SELECT salt FROM users WHERE address = '${address}'`)
+        const hashed = await bcrypt.hash(password, userSalt.rows[0]['salt'])
+        
+        password = hashed
+    }catch(error){
+        next({
+            method: 'error',
+            status: 500,
+            msg: 'there was error hashing your password.'
+        })
+    }
 
     let query = {
         method: "UPDATE",
