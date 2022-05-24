@@ -5,7 +5,7 @@ const pool = require('../Model/database');
 async function public_key_record(req, res, next){
     let query = {
         method: 'SELECT',
-        coulmns: 'username, public_key',
+        coulmns: 'address, public_key',
         table: 'users',
         limit: '100'
     }
