@@ -13,11 +13,4 @@ const pool = new Pool({
     port: DBPORT,
 })
 
-pool.on('connect', (client)=>{
-    console.log(`[INFO] connected Successfuly to Database.`)
-})
-
-//forcing PG to connect to the Database.
-pool.query('SELECT FROM users;')
-
 module.exports = pool;
