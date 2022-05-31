@@ -1,10 +1,8 @@
-const sockets = require('../model/sockets')
 const pool = require('../model/database')
 const bcrypt = require('bcrypt')
 
 async function verify(ws, data) {
-    console.log()
-    if(sockets[ws].messages >= 3){
+    if(ws._eventsCount >= 4){
         ws.send(JSON.stringify({"type":"connection", "connection":"terminate", "message":"Sent 3 messages without verify."}))
         ws.terminate();
         return
@@ -31,7 +29,8 @@ async function verify(ws, data) {
         }
         else if(DBdata.rows[0]['?column?'] == true){
             ws.send(JSON.stringify({"type":"authenticate", "authentication":"success"}))
-            sockets[ws].verified = true;
+            ws.verified = true;
+            ws.address = address;
         }
     }catch(err){
         ws.send(JSON.stringify({"type":"authenticate", "authentication":"failed", "message":"there was an error checking your credintials."}))
