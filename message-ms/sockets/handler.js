@@ -10,7 +10,6 @@ wss.on("connection", async (ws)=>{
     
 
     ws.on('message', (data)=>{
-        console.log(ws)
         
         try{
             data = JSON.parse(data.toString())
