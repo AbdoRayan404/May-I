@@ -6,7 +6,7 @@ async function databaseLogger(data, req, res, next){
         console.log(`[INFO] ${data.method} ${data.coulmns} from ${data.table} table where ${data.conditionKey} equal ${data.conditionValue}`)
     }
     else if(data.method == 'SELECT'){
-        console.log(`[INFO] ${data.method} ${data.coulmns} from table ${data.table} limited by ${data.limit}`)
+        console.log(`[INFO] ${data.method} ${data.coulmns} from table ${data.table} where address is ${data.address}`)
     }
     else if(data.method == 'INSERT'){
         console.log(`[INFO] ${data.method} into ${data.table} table where coulmns (${data.coulmns}) is (${data.values})`)

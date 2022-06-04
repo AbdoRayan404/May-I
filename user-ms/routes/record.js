@@ -7,13 +7,13 @@ async function public_key_record(req, res, next){
         method: 'SELECT',
         coulmns: 'address, public_key',
         table: 'users',
-        limit: '100'
+        address: req.params.address
     }
 
     try{
-        const record = await pool.query(`${query.method} ${query.coulmns} FROM ${query.table} LIMIT ${query.limit}`)
+        const record = await pool.query(`${query.method} ${query.coulmns} FROM ${query.table} WHERE address = '${query.address}'`)
 
-        res.status(200).json(record.rows)
+        res.status(200).json(record.rows[0])
 
         next(query)
     }catch(err){
@@ -26,6 +26,6 @@ async function public_key_record(req, res, next){
 }
 
 router
-    .get('/', public_key_record)
+    .get('/:address', public_key_record)
 
 module.exports = router
