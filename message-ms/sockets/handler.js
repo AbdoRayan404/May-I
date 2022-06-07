@@ -1,5 +1,5 @@
 const wss = require('../server')
-const {sockets, verifiedSockets} = require('../model/sockets')
+const {sockets} = require('../model/sockets')
 const verify = require('./unverified')
 const verified = require("./verified")
 
@@ -11,6 +11,7 @@ wss.on("connection", async (ws)=>{
 
     ws.on('message', (data)=>{
         
+        //Binary -> String -> JSON
         try{
             data = JSON.parse(data.toString())
         }catch(err){

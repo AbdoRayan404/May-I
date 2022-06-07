@@ -1,5 +1,6 @@
 const pool = require('../model/database')
 const bcrypt = require('bcrypt')
+const checkIn = require('../middlewares/checkin');
 
 async function verify(ws, data) {
     if(ws._eventsCount >= 4){
@@ -32,6 +33,8 @@ async function verify(ws, data) {
                 ws.send(JSON.stringify({"type":"authenticate", "authentication":"success"}))
                 ws.verified = true;
                 ws.address = address;
+
+                checkIn(ws);
             }
         }catch(err){
             ws.send(JSON.stringify({"type":"authenticate", "authentication":"failed", "message":"there was an error checking your credintials."}))
