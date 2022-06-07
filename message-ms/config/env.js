@@ -1,3 +1,3 @@
 require('dotenv').config();
 
-module.exports = {PORT, USER, HOST, DATABASE, DBPORT, PASSWORD} = process.env
+module.exports = {PORT, USER, HOST, DATABASE, DBPORT, PASSWORD, MONGO_URI} = process.env
