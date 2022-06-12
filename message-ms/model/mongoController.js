@@ -19,4 +19,23 @@ function getPendings(address){
     })
 }
 
-module.exports = getPendings;
+function createPending(message, from, to){
+    const pending = new pendingModel({
+        to: to,
+        from: from,
+        message: message,
+        sent_at: new Date().toDateString()
+    })
+
+
+    pending.save((err, data)=>{
+        if(err) {
+            console.log('saving pending error')
+        }
+    })
+}
+
+module.exports = {
+    getPendings: getPendings,
+    createPending: createPending
+};
