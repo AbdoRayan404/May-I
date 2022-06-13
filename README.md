@@ -3,6 +3,7 @@ May I? is a Messages application where you can send messages all over the globe 
 
 # Map
 - [Technical Explanation](https://github.com/Terry-404/May-I/blob/main/Technical.md)
+- [Usage](https://github.com/Terry-404/May-I/blob/main/Usage.md)
 
 # Want to Collab?
 if you want to collab with me as a Front-end Dev, Message me in discord.
