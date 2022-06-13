@@ -9,14 +9,15 @@ mongoose.connect(MONGO_URI)
 //models
 const pendingModel = require('./pending')
 
-function getPendings(address){
-    pendingModel.findOne({to: address}, (err, data) =>{
-        if(err){return}
-        if(data){
-            console.log(data);
-            return data
-        }
-    })
+async function getPendings(address){
+    const pendings = await pendingModel.find({to: address});
+
+    if(pendings.length == 0) return [];
+    else{ //if it's returned. delete em
+        await pendingModel.deleteMany({to: address});
+    }
+
+    return pendings;
 }
 
 function createPending(message, from, to){
