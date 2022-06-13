@@ -1,5 +1,11 @@
+const { getPendings } = require('../model/mongoController')
+
 async function checkIn(ws){
-    ws.send(JSON.stringify({"type":"TEST","message":"check in middleware works", "address":ws.address, "verification-status":ws.verified}))
+    const pendings = await getPendings(ws.address);
+
+    for(let i = 0; i < pendings.length; i++){
+        ws.send(JSON.stringify({"type":"pending-message","from":pendings[i]['from'], "message":pendings[i]['message'], "sent_at": new Date(pendings[i]['sent_at']).toDateString() }))
+    }
 }
 
 module.exports = checkIn
