@@ -1,0 +1,33 @@
+POST http://localhost:3000/api/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "AbdoRayan",
+    "password": "qwertyyy",
+    "public_key": "dont have one right now."
+}
+
+####
+
+POST http://localhost:3000/api/login HTTP/1.1
+content-type: application/json
+
+{
+    "address": "0x24f1",
+    "password": "qwertyyyy"
+}
+
+####
+
+PUT http://localhost:3000/api/update HTTP/1.1
+content-type: application/json
+
+{
+    "address": "0x24f1",
+    "password": "qwertyyy",
+    "public_key": "another weird string because i dont have pub key right now"
+}
+
+####
+
+GET http://localhost:3000/api/record/0x24f1 HTTP/1.1
