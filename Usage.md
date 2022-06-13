@@ -1,5 +1,5 @@
 # Usage.
-You will need "REST Client" extension in VSCode in order to test the RESTful API with just a click.<br/>
+You will need "REST Client" [extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) in VSCode in order to test the RESTful API with just a click.<br/>
 but in terms of the messaging MS you might need to test it manually,<br/>
 one Tool i use to connect to a WS server is [websocat](https://github.com/vi/websocat), you might want to use it in order to test the messaging service
 
@@ -10,6 +10,8 @@ one Tool i use to connect to a WS server is [websocat](https://github.com/vi/web
 |`/api/login`|**POST**| address, password | address, username, public_key |
 |`/api/update`|**PUT**| address, password, public_key | address, public_key |
 |`/api/record/:address`|**GET**| address as param | public_key |
+
+![rest client](https://humao.gallerycdn.vsassets.io/extensions/humao/rest-client/0.24.6/1638197435436/Microsoft.VisualStudio.Services.Icons.Default)
 
 ## register
 ```http
