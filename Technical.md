@@ -19,7 +19,7 @@
 - note: Reverse Proxy & Load balancer is in the same instance (HAproxy), not seperate instances.
 
 ## V1.1
-![v1.1](https://i.imgur.com/ebKOgzs.png)
+![v1.1](https://user-images.githubusercontent.com/44875260/174115483-70ddce68-243f-48a8-8175-768b767cc7d7.png)
 ## V1.1 Explanation:
 - User Database: Internal PostgreSQL RDBMS.
 - Messages Database: Cloud MongoDB (Atlas).
