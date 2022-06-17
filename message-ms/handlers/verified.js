@@ -3,7 +3,7 @@ const pool = require('../model/database')
 const { createPending } = require('../model/mongoController')
 
 async function verified(ws, data){
-    if(data.type == "message"){
+    if(data.type == "send"){
         let userToSend = {}
 
         const findUser = await pool.query(`SELECT address FROM users WHERE address = '${data.address}'`)
@@ -25,7 +25,7 @@ async function verified(ws, data){
             userToSend.send(JSON.stringify({"type":"message","message":data.message,"from": ws.address}))
         }
 
-        ws.send(JSON.stringify({"type":"send","status":"success","reason":"message was sent successfuly"}))
+        ws.send(JSON.stringify({"type":"send","status":"success"}))
     }
 }
 

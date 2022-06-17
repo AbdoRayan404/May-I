@@ -7,7 +7,7 @@ const {MONGO_URI} = require('../config/env')
 mongoose.connect(MONGO_URI)
 
 //models
-const pendingModel = require('./pending')
+const pendingModel = require('./pendingModel')
 
 async function getPendings(address){
     const pendings = await pendingModel.find({to: address});
