@@ -1,6 +1,6 @@
 const pool = require('../model/database')
 const bcrypt = require('bcrypt')
-const checkIn = require('../middlewares/checkin');
+const checkIn = require('./checkin');
 
 async function verify(ws, data) {
     if(ws._eventsCount >= 4){
