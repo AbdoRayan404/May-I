@@ -49,3 +49,17 @@ content-type: application/json
 ```http
 GET http://localhost:3000/api/record/0x24f1 HTTP/1.1
 ```
+
+## WebSocketServer Requests & Responses
+### sent by User
+| type | use case | takes | returns |
+| :--------: | ----- | ----- |  ----- |
+| `login` | for logging in when the handshake is made | {address:String, password:String} | {status:String, reason(in case of failure}:String |
+| `send` | for sending messages | {address:String, message:String} | {status:String, reason(in case of failure):String |
+
+### sent by Server
+| type | use case | body |
+| :--------: | ----- | ----- |
+| `connection` | for any types of connection changes | {status:String, reason:String}|
+| `message` | for real-time message recieving | {from:String, message:String} |
+| `pending-message` | for message that's been pending on our Databases | {from:String, message:String, sent_at:Date}

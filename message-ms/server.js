@@ -14,14 +14,13 @@ const MayIWebSocket = require('./classes/websocket')
 const wss = new WebSocket.WebSocketServer({ port:PORT, "WebSocket":MayIWebSocket },()=> console.log(`server is up on port ${ PORT }`))
 
 wss.on('connection', async (ws)=>{
-    ws.send(JSON.stringify({"type":"authenticate", "message":"login"}))
     sockets.push(ws)
 
     ws.on("message", (data)=>{
         try{
             data = JSON.parse(data.toString());
         }catch(err){
-            ws.send(JSON.stringify({"type":"conection", "connection":"terminate", "reason":"Invalid JSON"}))
+            ws.send(JSON.stringify({"type":"conection", "status":"terminate", "reason":"Invalid JSON"}))
             ws.terminate();
 
             return

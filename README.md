@@ -3,7 +3,7 @@ May I? is a User-To-User Encrypted messaging App. where you can send Encrypted M
 
 # Map
 - [Technical Explanation](https://github.com/Terry-404/May-I/blob/main/Technical.md)
-- [Usage](https://github.com/Terry-404/May-I/blob/main/TRY.md)
+- [Usage](https://github.com/Terry-404/May-I/blob/main/Docs.md)
 
 # How to use
 ## Microservices Dockerfile
