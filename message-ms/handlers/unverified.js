@@ -1,6 +1,7 @@
 const pool = require('../model/database')
 const bcrypt = require('bcrypt')
 const checkIn = require('./checkin');
+const {sockets} = require("../model/sockets")
 
 async function verify(ws, data) {
     if(ws._eventsCount >= 4){
@@ -29,10 +30,20 @@ async function verify(ws, data) {
             if(DBdata.rows[0]['?column?'] == false){
                 ws.send(JSON.stringify({"type":"login", "status":"failed", "reason":"password is wrong."}))
             }
-            else if(DBdata.rows[0]['?column?'] == true){
+            else if(DBdata.rows[0]['?column?'] == true){ //password is correct
+                //check if user already connected
+                for(let i = 0; i < sockets.length; i++){
+                    if(sockets[i].ACCaddress == address){
+                        ws.send(JSON.stringify({"type":"connection","status":"termination","reason":"this account is already connected."}))
+                        ws.terminate()
+
+                        return
+                    }
+                }
+                
                 ws.send(JSON.stringify({"type":"login", "status":"success"}))
                 ws.verified = true;
-                ws.address = address;
+                ws.ACCaddress = address;
 
                 checkIn(ws);
             }
