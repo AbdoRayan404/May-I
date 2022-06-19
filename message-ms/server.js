@@ -32,6 +32,14 @@ wss.on('connection', async (ws)=>{
             verified(ws, data)
         }
     })
+
+    ws.on("close", (code, reason)=>{
+        for(let i = 0; i < sockets.length; i++){
+            if(sockets[i] == ws){
+                sockets.splice(i, 1);
+            }
+        }
+    })
 })
 
 module.exports = wss
