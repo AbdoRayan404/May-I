@@ -8,6 +8,7 @@ const verify = require('./handlers/unverified')
 const verified = require("./handlers/verified")
 const checkin = require("./handlers/checkin")
 const {sockets} = require('./model/sockets')
+const miscCheck = require('./handlers/inputCheck')
 
 //initial WebSockerServer
 const MayIWebSocket = require('./classes/websocket')
@@ -17,10 +18,21 @@ wss.on('connection', async (ws)=>{
     sockets.push(ws)
 
     ws.on("message", (data)=>{
+        // data parsing. Buffer => String => JSON
         try{
             data = JSON.parse(data.toString());
         }catch(err){
             ws.send(JSON.stringify({"type":"conection", "status":"terminate", "reason":"Invalid JSON"}))
+            ws.terminate();
+
+            return
+        }
+
+        // Input check
+        let misccheck = miscCheck(data);
+
+        if(misccheck == true){ //means input has miscellaneous characters
+            ws.send(JSON.stringify({"type":"connection", "status":"terminate", "reason":"miscellaneous characters"}))
             ws.terminate();
 
             return
