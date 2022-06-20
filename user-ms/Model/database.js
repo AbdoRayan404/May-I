@@ -6,7 +6,7 @@ const pool = new Pool({
     user: USER,
     host: HOST,
     database: DATABASE,
-    //password: PASSWORD, //uncomment if you have password in your database
+    password: PASSWORD,
     port: Number.parseInt(DBPORT)
 })
 
