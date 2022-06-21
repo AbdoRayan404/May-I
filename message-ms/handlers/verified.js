@@ -14,15 +14,14 @@ async function verified(ws, data){
         }
 
         for(let i = 0; i < sockets.length; i++){
-            if(sockets[i].address == data.address && sockets[i].verified == true){
+            if(sockets[i].ACCaddress == data.address && sockets[i].verified == true){
                 userToSend = sockets[i]
             }
         }
-
-        if(userToSend = {}){ //if the user is not connected
-            createPending(data.message, ws.address, data.address)
+        if(userToSend == {}){ //if the user is not connected
+            createPending(data.message, ws.ACCaddress, data.address)
         }else{ //user is connected
-            userToSend.send(JSON.stringify({"type":"message","message":data.message,"from": ws.address}))
+            userToSend.send(JSON.stringify({"type":"message","message":data.message,"from": ws.ACCaddress}))
         }
 
         ws.send(JSON.stringify({"type":"send","status":"success"}))
