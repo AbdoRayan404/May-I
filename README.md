@@ -3,7 +3,7 @@ May I? is a User-To-User Encrypted messaging App. where you can send Encrypted M
 
 # Live webistes
 - [User Microservice](https://mayiuserms.herokuapp.com/) note: check [Usage](https://github.com/Terry-404/May-I/blob/main/Docs.md) to understand what to do
-- [Messages Microservice](ws://mayimessagesms.herokuapp.com/) check docs !
+- [Messages Microservice](https://mayimessagesms.herokuapp.com/) check docs !
 
 # Map
 - [Technical Explanation](https://github.com/Terry-404/May-I/blob/main/Technical.md)
