@@ -1,16 +1,17 @@
 const Pool = require('pg').Pool;
 
 //exports
-const {USER, DATABASE, HOST, DBPORT, PASSWORD} = require('../config/env');
+const {DBUSER, DATABASE, HOST, DBPORT, PASSWORD} = require('../config/env');
 
 
 //Database connection configurations
 const pool = new Pool({
-    user: USER,
+    user: DBUSER,
     host: HOST,
     database: DATABASE,
-    //password: PASSWORD,
+    password: PASSWORD,
     port: DBPORT,
+    ssl: {rejectUnauthorized: false}
 })
 
 module.exports = pool;
