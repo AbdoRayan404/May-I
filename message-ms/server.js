@@ -12,7 +12,7 @@ const miscCheck = require('./handlers/inputCheck')
 
 //initial WebSockerServer
 const MayIWebSocket = require('./classes/websocket')
-const wss = new WebSocket.WebSocketServer({ port:PORT, "WebSocket":MayIWebSocket },()=> console.log(`server is up on port ${ PORT }`))
+const wss = new WebSocket.WebSocketServer({ port:PORT || 4000, "WebSocket":MayIWebSocket },()=> console.log(`server is up on port ${ PORT }`))
 
 wss.on('connection', async (ws)=>{
     sockets.push(ws)
