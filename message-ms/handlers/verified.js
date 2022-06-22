@@ -18,10 +18,10 @@ async function verified(ws, data){
                 userToSend = sockets[i]
             }
         }
-        if(userToSend == {}){ //if the user is not connected
-            createPending(data.message, ws.ACCaddress, data.address)
-        }else{ //user is connected
+        if(userToSend.ACCaddress){ //if the user is
             userToSend.send(JSON.stringify({"type":"message","message":data.message,"from": ws.ACCaddress}))
+        }else{ //user is not connected
+            createPending(data.message, ws.ACCaddress, data.address)
         }
 
         ws.send(JSON.stringify({"type":"send","status":"success"}))
