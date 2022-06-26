@@ -44,5 +44,38 @@ right now our servers may take the "restore_message" and store it in our databas
 Smart guy might say now, "this is only for outgoing message" which is correct.
 now this will only store outgoing messages from a user, but what about incoming ones? it's as simple as it is.<br>
 we will just have middleware that will check if user have storing messages enabled and capture the message and store it. (more technical explaination later, now it's theoretical)
+## V1.2 Model Desgins/Schema
+### WebSocket Class
+```js
+extends WS.WebSocket{
+ _verified: boolean,
+ _ACCaddress: String,
+ _store-message: boolean
+```
+### PostgreSQL
+![v1.2 postgresql](https://user-images.githubusercontent.com/44875260/175835049-b954ea7e-e546-4cd0-80c3-04847557ad30.png)
+### MongoDB
+**pending messages model**
+```JS
+{_id:'123',
+ to:'0x---',
+ from:'0x----',
+ message:'mkIDZeE1lW15ndSg34th2AGBS4JdzJYUQW/EwuYqQPo30gSUyIsfF+VOQHBELeMfHhX0HDHKt/+m0OV4KCeWO1GMhwZofDXHA6EXCpwcapMN0u53GsTy5RbajpAAYXrxsGaBB8WFuYn0jKQGxC8Kf8dF+JiqGa0g2ZLDi0t4Kws=',
+ sent_at:'2022-06-06'
+}
+```
+**stored messages model**
+```JS
+{
+  address: '0x123',
+  outgoing:{
+   'address':[{message:"---", sent_at:"---"}]
+  },
+  incoming:{
+   'address':[{message:"---", sent_at:"---"}]
+  }
+ }
+}
+```
 ### Some Technical choices explained.
 **input Checks** in terms to check the input for any SQL injection i had an idea to make it quick and easy to implement. my idea was to prevent any Misc characters except Alphabet and numbers and space, so even if a user just started Writing "SELECT FROM ..." nothing will happen because those statments he will inject it will stay inside the quotes where the postgreSQL will not take it as SQL statemnts. so my focus here was to prevent playing with the quotes because that will be the only way for an injection from my POV.
