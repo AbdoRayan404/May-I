@@ -24,12 +24,12 @@ async function register(req, res, next){
     let query = {
         method: 'INSERT',
         table: 'users',
-        coulmns: `address, username, password, UUID, store_messages, public_key, SALT`,
+        columns: `address, username, password, UUID, store_messages, public_key, SALT`,
         values: `'${address}', '${username}', '${password}', '${uuid}', FALSE, '${public_key}', '${SALT}'`
     }
 
     try{
-        const registerData = await pool.query(`${query.method} INTO ${query.table}(${query.coulmns}) VALUES(${query.values})`)
+        const registerData = await pool.query(`${query.method} INTO ${query.table}(${query.columns}) VALUES(${query.values})`)
 
         res.status(200).json({'address':address, 'username': username, 'public_key': public_key})
         
@@ -62,7 +62,7 @@ async function login(req, res, next){
 
     let query = {
         method: 'SELECT',
-        coulmns: `password = '${password}', address, username, public_key`,
+        columns: `password = '${password}', address, username, public_key`,
         table: 'users',
         condition: 'WHERE',
         conditionKey: 'address',
@@ -70,7 +70,7 @@ async function login(req, res, next){
     }
 
     try{
-        const userData = await pool.query(`${query.method} ${query.coulmns} FROM ${query.table} WHERE ${query.conditionKey} = ${query.conditionValue}`)
+        const userData = await pool.query(`${query.method} ${query.columns} FROM ${query.table} WHERE ${query.conditionKey} = ${query.conditionValue}`)
 
         if(userData.rows[0]['?column?'] == false){
             next({
