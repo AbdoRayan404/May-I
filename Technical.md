@@ -68,13 +68,8 @@ extends WS.WebSocket{
 ```JS
 {
   address: '0x123',
-  outgoing:{
-   'address':[{message:"---", sent_at:"---"}]
-  },
-  incoming:{
-   'address':[{message:"---", sent_at:"---"}]
-  }
- }
+  outgoing:[{to:String, message:String, sent_at:Date}],
+  incoming:[{from:String, message:String, sent_at:Date}]
 }
 ```
 ### Some Technical choices explained.
