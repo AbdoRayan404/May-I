@@ -2,6 +2,8 @@ const pool = require('../Model/database')
 const { v4:uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 
+const {addUser, getMessages} = require('../Model/mongoController')
+
 //config imports
 let { SALT } = require('../config/env')
 
@@ -161,6 +163,13 @@ async function updateSettings(req, res, next){
         
 
         res.json({address:address, store_messages:storeIt})
+
+        if(storeIt == true){
+            await addUser(address);
+        }else if(storeIt == false){
+            //delete user document from database
+        }
+
         next(query)
     }catch(err){
         console.log(err)
@@ -172,9 +181,50 @@ async function updateSettings(req, res, next){
     }
 }
 
+async function getUserMessages(req, res, next){
+    let {address, password} = req.body;
+
+    try{
+        const userSalt = await pool.query(`SELECT salt FROM users WHERE address = '${address}'`)
+        const hashed = await bcrypt.hash(password, userSalt.rows[0]['salt'])
+
+        password = hashed
+    }catch(err){
+        next({
+            method: 'error',
+            status: 500,
+            msg: 'there was an error hashing your password'
+        })
+    }
+
+    try{
+        const user = await pool.query(`SELECT password = '${password}' FROM users WHERE address = '${address}'`);
+        
+        if(user.rows[0]['?column?'] == true){ //password is correct
+            const userMessages = await getMessages(address);
+
+            res.json({address:userMessages.address, outgoing:userMessages.outgoing, incoming:userMessages.incoming})
+        }else{
+            next({
+                method: 'error',
+                status: 400,
+                msg: 'password is incorrect'
+            })
+        }
+    }catch(err){
+        console.log(err)
+        next({
+            method: 'error',
+            status: 500,
+            msg: 'there was an error checking your password in DB'
+        })
+    }
+}
+
 module.exports = {
     register: register,
     login: login,
     updatePubKey: updatePubKey,
-    updateSettings: updateSettings
+    updateSettings: updateSettings,
+    getUserMessages: getUserMessages
 }
