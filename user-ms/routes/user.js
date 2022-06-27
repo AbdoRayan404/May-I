@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const {login, register, update} = require('../controllers/user');
+const {login, register, updatePubKey, updateSettings} = require('../controllers/user');
 const inputCheck = require('../middlewares/handlers/inputHandler');
 
 router
     .post('/login', login)
     .post('/register', inputCheck, register)
-    .put('/update', update)
+    .put('/update/pubkey', updatePubKey)
+    .put('/update/settings', updateSettings)
 
 module.exports = router

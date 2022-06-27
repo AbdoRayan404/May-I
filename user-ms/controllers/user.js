@@ -22,8 +22,8 @@ async function register(req, res, next){
     let query = {
         method: 'INSERT',
         table: 'users',
-        coulmns: `address, username, password, UUID, public_key, SALT`,
-        values: `'${address}', '${username}', '${password}', '${uuid}', '${public_key}', '${SALT}'`
+        coulmns: `address, username, password, UUID, store_messages, public_key, SALT`,
+        values: `'${address}', '${username}', '${password}', '${uuid}', FALSE, '${public_key}', '${SALT}'`
     }
 
     try{
@@ -33,6 +33,7 @@ async function register(req, res, next){
         
         next(query)
     }catch(err){
+        console.log(err)
         next({
             method: 'error',
             status: 500,
@@ -89,7 +90,7 @@ async function login(req, res, next){
     }
 }
 
-async function update(req, res, next){
+async function updatePubKey(req, res, next){
     let {address, password, public_key} = req.body;
     
     try{
@@ -108,14 +109,14 @@ async function update(req, res, next){
     let query = {
         method: "UPDATE",
         table: "users",
-        coulmn: 'public_key',
-        coulmnValue: public_key,
+        column: 'public_key',
+        columnValue: public_key,
         conditionAddress: `address = '${address}'`,
         conditionPassword: `password = '${password}'`
     }
 
     try{
-        const updatedData = await pool.query(`${query.method} ${query.table} SET ${query.coulmn} = '${query.coulmnValue}' WHERE ${query.conditionAddress} AND ${query.conditionPassword}`)
+        const updatedData = await pool.query(`${query.method} ${query.table} SET ${query.column} = '${query.columnValue}' WHERE ${query.conditionAddress} AND ${query.conditionPassword}`)
 
         res.json({'address': address, 'public_key': public_key})
 
@@ -129,8 +130,51 @@ async function update(req, res, next){
     }
 }
 
+async function updateSettings(req, res, next){
+    let {address, password, storeIt} = req.body;
+    if(typeof storeIt !== 'boolean') next({method:'error',status:400,msg:'storeIt should be a boolean'})
+
+    try{
+        const userSalt = await pool.query(`SELECT salt FROM users WHERE address = '${address}'`)
+        const hashed = await bcrypt.hash(password, userSalt.rows[0]['salt'])
+
+        password = hashed
+    }catch(err){
+        next({
+            method: 'error',
+            status: 500,
+            msg: 'there was an error hashing your password'
+        })
+    }
+
+    let query = {
+        method: 'UPDATE',
+        table: 'users',
+        column: 'store_messages',
+        columnValue: storeIt,
+        conditionAddress: `address = '${address}'`,
+        conditionPassword: `password = '${password}'`
+    }
+
+    try{
+        const update = await pool.query(`${query.method} ${query.table} SET ${query.column} = ${query.columnValue} WHERE ${query.conditionAddress} AND ${query.conditionPassword}`)
+        
+
+        res.json({address:address, store_messages:storeIt})
+        next(query)
+    }catch(err){
+        console.log(err)
+        next({
+            method: 'error',
+            status: 500,
+            msg: 'there was an error upadting your data'
+        })
+    }
+}
+
 module.exports = {
     register: register,
     login: login,
-    update: update
+    updatePubKey: updatePubKey,
+    updateSettings: updateSettings
 }
