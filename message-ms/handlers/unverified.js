@@ -40,12 +40,10 @@ async function verify(ws, data) {
                         return
                     }
                 }
-                
-                ws.send(JSON.stringify({"type":"login", "status":"success"}))
-                ws.verified = true;
-                ws.ACCaddress = address;
-
-                checkIn(ws);
+                let checked = await checkIn(ws, address);
+                if(checked == true){
+                    ws.send(JSON.stringify({"type":"login", "status":"success"}))
+                }
             }
         }catch(err){
             ws.send(JSON.stringify({"type":"login", "status":"failed", "reason":"there was an error checking your credintials."}))

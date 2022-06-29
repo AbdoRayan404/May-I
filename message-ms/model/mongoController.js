@@ -8,35 +8,55 @@ mongoose.connect(MONGO_URI)
 
 //models
 const pendingModel = require('./pendingModel')
+const messagesModel = require('./messagesModel')
 
 async function getPendings(address){
-    const pendings = await pendingModel.find({to: address});
+    const pendings = await pendingModel.find({receiver: address});
 
     if(pendings.length == 0) return [];
     else{ //if it's returned. delete em
-        await pendingModel.deleteMany({to: address});
+        await pendingModel.deleteMany({receiver: address});
     }
 
     return pendings;
 }
 
-function createPending(message, from, to){
+async function createPending(from, to, message){
     const pending = new pendingModel({
-        to: to,
-        from: from,
+        receiver: to,
+        sender: from,
         message: message,
         sent_at: new Date().toDateString()
     })
 
 
-    pending.save((err, data)=>{
-        if(err) {
-            console.log('saving pending error')
-        }
+    const savedPending = await pending.save()
+}
+
+/*
+    args
+        sender @type {String}
+        reciever @type {String}
+        message @type {String}
+        outgoing @type {Boolean}
+        sent_at @type {Date}
+
+
+*/
+async function storeMessage(sender, reciever, message, outgoing, sent_at = new Date().toDateString()){
+    let messageToSave = new messagesModel({
+        sender: sender,
+        receiver: reciever,
+        message: message,
+        outgoing: outgoing,
+        sent_at: sent_at
     })
+
+    const savedMessage = await messageToSave.save()
 }
 
 module.exports = {
     getPendings: getPendings,
-    createPending: createPending
+    createPending: createPending,
+    storeMessage: storeMessage
 };

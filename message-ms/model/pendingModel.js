@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
 const pendingSchema = new mongoose.Schema({
-    to:{
+    receiver:{
         type: String,
         required: true
     },
-    from:{
+    sender:{
         type: String,
         required: true
     },

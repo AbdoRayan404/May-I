@@ -53,23 +53,25 @@ extends WS.WebSocket{
  _store-message: boolean
 ```
 ### PostgreSQL
-![v1.2 postgresql](https://user-images.githubusercontent.com/44875260/175835049-b954ea7e-e546-4cd0-80c3-04847557ad30.png)
+![v1.2 postgresql](https://i.imgur.com/dn1JIdk.png)
 ### MongoDB
 **pending messages model**
 ```JS
-{_id:'123',
- to:'0x---',
- from:'0x----',
- message:'mkIDZeE1lW15ndSg34th2AGBS4JdzJYUQW/EwuYqQPo30gSUyIsfF+VOQHBELeMfHhX0HDHKt/+m0OV4KCeWO1GMhwZofDXHA6EXCpwcapMN0u53GsTy5RbajpAAYXrxsGaBB8WFuYn0jKQGxC8Kf8dF+JiqGa0g2ZLDi0t4Kws=',
- sent_at:'2022-06-06'
+{_id: id,
+ to: String,
+ from: String,
+ message: String,
+ sent_at: Date
 }
 ```
 **stored messages model**
 ```JS
 {
-  address: '0x123',
-  outgoing:[{to:String, message:String, sent_at:Date}],
-  incoming:[{from:String, message:String, sent_at:Date}]
+  sender: String,
+  receiver: String,
+  outgoing: Boolean,
+  message: String,
+  sent_at: Date
 }
 ```
 ### Some Technical choices explained.

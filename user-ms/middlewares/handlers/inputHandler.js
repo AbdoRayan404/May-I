@@ -2,7 +2,7 @@ async function check(req, res, next){
     
     let {username, password, public_key} = req.body
     
-    if(!username.match(/^[A-z]{4,36}$/g)) next({
+    if(!username.match(/^[A-z0-9]{4,36}$/g)) next({
         method: 'error',
         status: 401,
         msg:'username should be between 4-36 A-Z'

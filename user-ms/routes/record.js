@@ -1,6 +1,4 @@
-const express = require('express');
-const router = express.Router();
-const pool = require('../Model/database');
+const pool = require('../model/database');
 
 async function public_key_record(req, res, next){
     let query = {
@@ -14,18 +12,11 @@ async function public_key_record(req, res, next){
         const record = await pool.query(`${query.method} ${query.coulmns} FROM ${query.table} WHERE address = '${query.address}'`)
 
         res.status(200).json(record.rows[0])
-
-        next(query)
     }catch(err){
-        next({
-            method: 'error',
-            status: 500,
-            msg: 'there was error reteriving the data.'
-        })
+        console.error(err)
+        req.error = {status:500, msg:'there was an error reteriving the data'}
+        next()
     }
 }
 
-router
-    .get('/:address', public_key_record)
-
-module.exports = router
+module.exports = public_key_record

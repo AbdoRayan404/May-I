@@ -1,6 +1,7 @@
 const {sockets} = require("../model/sockets")
 const pool = require('../model/database')
-const { createPending } = require('../model/mongoController')
+const { createPending, storeMessage } = require('../model/mongoController')
+const { sendMessage } = require('./sendMessage')
 
 async function verified(ws, data){
     if(data.type == "send"){
@@ -18,10 +19,19 @@ async function verified(ws, data){
                 userToSend = sockets[i]
             }
         }
-        if(userToSend.ACCaddress){ //if the user is
-            userToSend.send(JSON.stringify({"type":"message","message":data.message,"from": ws.ACCaddress}))
+
+        //NOTE: here we want to store message when it is sent to the user that's why storing messages only happen
+        //when the user have checked in
+        
+        if(userToSend.ACCaddress){ //if the user is connected
+            sendMessage(ws, userToSend, data.message)
         }else{ //user is not connected
-            createPending(data.message, ws.ACCaddress, data.address)
+            createPending(ws.ACCaddress, data.address, data.message)
+
+            //creating stored message for the sender only.
+            if(ws.storeMessages == true){
+                storeMessage(ws.ACCaddress, data.address, data.message, true)
+            }
         }
 
         ws.send(JSON.stringify({"type":"send","status":"success"}))
