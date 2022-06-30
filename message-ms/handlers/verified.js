@@ -24,13 +24,16 @@ async function verified(ws, data){
         //when the user have checked in
         
         if(userToSend.ACCaddress){ //if the user is connected
-            sendMessage(ws, userToSend, data.message)
+            let error = await sendMessage(ws, userToSend, data.message, data.restore_message)
+            if(error == false){
+                ws.send(JSON.stringify({"type":"error","reason":"message were not stored, no restore_message field provided"}))
+            }
         }else{ //user is not connected
             createPending(ws.ACCaddress, data.address, data.message)
 
             //creating stored message for the sender only.
             if(ws.storeMessages == true){
-                storeMessage(ws.ACCaddress, data.address, data.message, true)
+                storeMessage(ws.ACCaddress, data.address, data.restore_message, true)
             }
         }
 

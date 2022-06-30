@@ -1,33 +1,53 @@
-POST http://localhost:3000/api/register HTTP/1.1
+POST https://mayiuserms.herokuapp.com/api/register HTTP/1.1
 content-type: application/json
 
 {
-    "username": "AbdoRayan",
+    "username": "AbdoRayan123",
+    "password": "qwertyyy23",
+    "public_key": "dont have one right now"
+}
+
+####
+
+POST https://mayiuserms.herokuapp.com/api/login HTTP/1.1
+content-type: application/json
+
+{
+    "address": "0x1d44",
+    "password": "qwertyyy"
+}
+
+####
+
+PUT https://mayiuserms.herokuapp.com/api/update/pubkey HTTP/1.1
+content-type: application/json
+
+{
+    "address": "0x1d44",
     "password": "qwertyyy",
-    "public_key": "dont have one right now."
+    "public_key": "pubzub amazing"
 }
 
 ####
 
-POST http://localhost:3000/api/login HTTP/1.1
+PUT https://mayiuserms.herokuapp.com/api/update/settings HTTP/1.1
 content-type: application/json
 
 {
-    "address": "0x24f1",
-    "password": "qwertyyyy"
-}
-
-####
-
-PUT http://localhost:3000/api/update HTTP/1.1
-content-type: application/json
-
-{
-    "address": "0x24f1",
+    "address": "0x1d44",
     "password": "qwertyyy",
-    "public_key": "another weird string because i dont have pub key right now"
+    "storeIt": true
+}
+####
+
+POST https://mayiuserms.herokuapp.com/api/user/messages HTTP/1.1
+content-type: application/json
+
+{
+    "address":"0x1d44",
+    "password":"qwertyyy"
 }
 
 ####
 
-GET http://localhost:3000/api/record/0x24f1 HTTP/1.1
+GET https://mayiuserms.herokuapp.com/api/record/0x2a17 HTTP/1.1
