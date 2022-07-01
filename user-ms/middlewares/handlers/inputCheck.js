@@ -14,7 +14,7 @@ async function miscCheck(req, res, next){
     if(regex.test(req.params.address) == true) hasMisc = true
 
     if(hasMisc == true){
-        res.status(400).json({'error':'miscellaneous characters has been found.'})
+        res.status(400).json({'error':'miscellaneous characters has been found'})
     }else{
         next()
     }

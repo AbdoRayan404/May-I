@@ -10,6 +10,7 @@ async function verify(req, res, next){
             req.body.password = await bcrypt.hash(req.body.password, salt.rows[0]['salt'])
         }else{
             res.status(400).json({error:"this address doesnt exist"})
+            return
         }
     }catch(err){
         console.error(err)
