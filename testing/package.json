@@ -1,0 +1,24 @@
+{
+  "name": "mayitesting",
+  "version": "1.0.0",
+  "description": "just some test for mayi API endpoints",
+  "main": "test.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Terry-404/May-I.git"
+  },
+  "author": "AbdoRayan404",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Terry-404/May-I/issues"
+  },
+  "homepage": "https://github.com/Terry-404/May-I#readme",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
+    "supertest": "^6.2.3"
+  }
+}
