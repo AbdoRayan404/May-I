@@ -32,14 +32,24 @@ content-type: application/json
     "password": "qwertyyyy"
 }
 ```
-## update
+## update public_key
 ```http
-PUT http://localhost:3000/api/update HTTP/1.1
+PUT http://localhost:3000/api/update/pubkey HTTP/1.1
 content-type: application/json
 {
     "address": "0x24f1",
     "password": "qwertyyy",
     "public_key": "another weird string because i dont have pub key right now"
+}
+```
+## update settings
+```http
+PUT http://localhost:3000/api/update/settings HTTP/1.1
+content-type: application/json
+{
+    "address": "0x24f1",
+    "password": "qwertyyy",
+    "storeIt": true
 }
 ```
 ## record
