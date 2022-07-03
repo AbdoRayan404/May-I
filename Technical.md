@@ -74,5 +74,50 @@ extends WS.WebSocket{
   sent_at: Date
 }
 ```
+## V1.3 Front-end compatibility
+in this version i will focus more on making the application compatible with Front end, so the I/O of data will be very optimized to work with a front-end, as for the stored messages, settings, login, private_key etc...
+### Vision
+i will aim with all my skills, to make the application pretty compatible with any future front end, and by doing so the application will have <br>
+- optimized way to update settings
+- new optimized ways to retrieve stored messages (incoming or outgoing)
+- optimized login
+- putting usernames in action, and making them be in every action
+### Ideas that might add
+i wandered about taking it an extra step and allowing users to store their private key in our servers but it will be encrypted using their password, so a user don't really need to worry about holding his private key on every system he open the application from, he just needs to remember his 8-32 password, all that being said it's still an idea that needs deep research in cryptography's key based encryptions.
+## V1.3 Model Desgins/Schema
+### WebSocket Class
+```js
+extends WS.WebSocket{
+ _verified: boolean,
+ _ACCaddress: String,,
+ _username: String,
+ _store-message: boolean
+```
+### PostgreSQL
+![v1.3 postgresql](https://i.imgur.com/dn1JIdk.png)
+### MongoDB
+**pending messages model**
+```JS
+{_id: id,
+ to: String,
+ receiver_username: String,
+ from: String,
+ sender_username: String,
+ message: String,
+ sent_at: Date
+}
+```
+**stored messages model**
+```JS
+{
+  sender: String,
+  sender_username: String,
+  receiver: String,
+  receiver_username: String,
+  outgoing: Boolean,
+  message: String,
+  sent_at: Date
+}
+```
 ### Some Technical choices explained.
 **input Checks** in terms to check the input for any SQL injection i had an idea to make it quick and easy to implement. my idea was to prevent any Misc characters except Alphabet and numbers and space, so even if a user just started Writing "SELECT FROM ..." nothing will happen because those statments he will inject it will stay inside the quotes where the postgreSQL will not take it as SQL statemnts. so my focus here was to prevent playing with the quotes because that will be the only way for an injection from my POV.
