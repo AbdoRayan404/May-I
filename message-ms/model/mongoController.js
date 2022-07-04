@@ -21,10 +21,18 @@ async function getPendings(address){
     return pendings;
 }
 
-async function createPending(from, to, message){
+/*
+    args
+        sender @type {WebSocket}
+        reciever @type {String}
+        message @type {String} 
+*/
+
+async function createPending(sender, reciever, message){
     const pending = new pendingModel({
-        receiver: to,
-        sender: from,
+        receiver: reciever,
+        sender: sender.ACCaddress,
+        sender_username: sender.username,
         message: message,
         sent_at: new Date().toDateString()
     })
@@ -35,18 +43,22 @@ async function createPending(from, to, message){
 
 /*
     args
-        sender @type {String}
-        reciever @type {String}
+        senderAddress @type {String}
+        senderUsername @type {String}
+        receieverAddress @type {String}
+        recieverUsername @type {String}
         message @type {String}
         outgoing @type {Boolean}
         sent_at @type {Date}
 
 
 */
-async function storeMessage(sender, reciever, message, outgoing, sent_at = new Date().toDateString()){
+async function storeMessage(senderAddress, senderUsername, recieverAddress, recieverUsername, message, outgoing, sent_at = new Date().toDateString()){
     let messageToSave = new messagesModel({
-        sender: sender,
-        receiver: reciever,
+        sender: senderAddress,
+        sender_username: senderUsername,
+        receiver: recieverAddress,
+        receiver_username: recieverUsername,
         message: message,
         outgoing: outgoing,
         sent_at: sent_at
