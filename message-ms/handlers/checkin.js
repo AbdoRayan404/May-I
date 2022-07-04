@@ -3,9 +3,10 @@ const pool = require('../model/database')
 
 const { sendPendingMessage } = require('./sendMessage')
 
-async function checkIn(ws, address){
+async function checkIn(ws, address, username){
     ws.verified = true;
     ws.ACCaddress = address;
+    ws.username = username
 
     try{
         let userSettings = await pool.query(`SELECT store_messages FROM users WHERE address = '${ws.ACCaddress}'`)

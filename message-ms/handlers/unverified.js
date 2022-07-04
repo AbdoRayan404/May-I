@@ -25,7 +25,7 @@ async function verify(ws, data) {
     
         //Logging in and verifing credintials
         try{
-            const DBdata = await pool.query(`SELECT password = '${password}' FROM users  WHERE address = '${address}'`)
+            const DBdata = await pool.query(`SELECT password = '${password}', username FROM users  WHERE address = '${address}'`)
     
             if(DBdata.rows[0]['?column?'] == false){
                 ws.send(JSON.stringify({"type":"login", "status":"failed", "reason":"password is wrong."}))
@@ -40,9 +40,10 @@ async function verify(ws, data) {
                         return
                     }
                 }
-                let checked = await checkIn(ws, address);
+
+                let checked = await checkIn(ws, address, DBdata.rows[0]['username']);
                 if(checked == true){
-                    ws.send(JSON.stringify({"type":"login", "status":"success"}))
+                    ws.send(JSON.stringify({"type":"login", "status":"success", "logged_as":ws.username}))
                 }
             }
         }catch(err){

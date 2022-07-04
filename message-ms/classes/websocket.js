@@ -7,6 +7,7 @@ class MayIWebSocket extends WebSocket.WebSocket {
         this._verified = false
         this._storeMessages = false
         this._ACCaddress = ""
+        this._username = ""
     }
 
     /*
@@ -51,6 +52,22 @@ class MayIWebSocket extends WebSocket.WebSocket {
 
     set storeMessages(storeIt){
         this._storeMessages = storeIt
+    }
+
+    /*
+        return @type {String}
+    */
+
+    get username(){
+        return this._username;
+    }
+
+    /*
+        arg @type {String}
+    */
+
+    set username(username){
+        this._username = username;
     }
 }
 
