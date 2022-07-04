@@ -20,7 +20,7 @@ async function checkIn(ws, address, username){
     const pendings = await getPendings(ws.ACCaddress);
 
     for(let i = 0; i < pendings.length; i++){
-        await sendPendingMessage(pendings[i]['sender'], ws, pendings[i]['message'], new Date(pendings[i]['sent_at']).toDateString())
+        await sendPendingMessage(pendings[i]['sender'], pendings[i]['sender_username'], ws, pendings[i]['message'], new Date(pendings[i]['sent_at']).toDateString())
     }
 
     return true

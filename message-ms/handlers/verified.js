@@ -7,7 +7,7 @@ async function verified(ws, data){
     if(data.type == "send"){
         let userToSend = {}
 
-        const findUser = await pool.query(`SELECT address FROM users WHERE address = '${data.address}'`)
+        const findUser = await pool.query(`SELECT address, username FROM users WHERE address = '${data.address}'`)
 
         if(findUser.rowCount == 0){
             ws.send(JSON.stringify({"type":"send","status":"error","reason":"this user doesn't exist"}))
@@ -29,11 +29,11 @@ async function verified(ws, data){
                 ws.send(JSON.stringify({"type":"error","reason":"message were not stored, no restore_message field provided"}))
             }
         }else{ //user is not connected
-            createPending(ws.ACCaddress, data.address, data.message)
-
+            createPending(ws, data.address, data.message)
+            
             //creating stored message for the sender only.
             if(ws.storeMessages == true){
-                storeMessage(ws.ACCaddress, data.address, data.restore_message, true)
+                storeMessage(ws.ACCaddress, ws.username, findUser.rows[0]['address'], findUser.rows[0]['username'], data.restore_message, true)
             }
         }
 
