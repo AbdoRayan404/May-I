@@ -9,7 +9,7 @@ content-type: application/json
 
 ####
 
-POST https://mayiuserms.herokuapp.com/api/login HTTP/1.1
+POST http://localhost:3000/api/login HTTP/1.1
 content-type: application/json
 
 {
@@ -19,25 +19,15 @@ content-type: application/json
 
 ####
 
-PUT https://mayiuserms.herokuapp.com/api/update/pubkey HTTP/1.1
+PUT http://localhost:3000/api/user/settings HTTP/1.1
 content-type: application/json
 
 {
     "address": "0x1d44",
     "password": "qwertyyy",
-    "public_key": "pubzub amazing"
+    "update": {}
 }
 
-####
-
-PUT https://mayiuserms.herokuapp.com/api/update/settings HTTP/1.1
-content-type: application/json
-
-{
-    "address": "0x1d44",
-    "password": "qwertyyy",
-    "storeIt": true
-}
 ####
 
 POST https://mayiuserms.herokuapp.com/api/user/messages HTTP/1.1

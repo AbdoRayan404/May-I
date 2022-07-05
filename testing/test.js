@@ -125,4 +125,47 @@ describe('Public key record /api/record/:address', ()=>{
         expect(responseOfSecondValid.body.address).to.eql(Object.keys(valid_data)[1])
         expect(responseOfSecondValid.body.public_key).to.eql(valid_data[Object.keys(valid_data)[1]])
     })
+
+describe("User settings updating /api/user/settings", ()=>{
+    it('return 400, wrong cred', async ()=>{
+        const response = await request
+        .put('/api/user/settings')
+        .set('Accept', "application/json")
+        .send({address:cred.address, password:"blahblah"})
+
+        expect(response.status).to.eql(400)
+        expect(response.body.error).to.eql("password is incorrect")
+    })
+
+    it('reutrn 200, with store_messages field', async ()=>{
+        const response = await request
+        .put('/api/user/settings')
+        .set('Accept', 'application/json')
+        .send({address:cred.address, password:cred.password, update:{store_messages: true}})
+
+        expect(response.status).to.eql(200)
+        expect(response.body.store_messages).to.eql(true)
+    })
+
+    it('return 200, with public_key field', async ()=>{
+        const response = await request
+        .put('/api/user/settings')
+        .set('Accept', 'application/json')
+        .send({address:cred.address, password:cred.password, update:{public_key: "working"}})
+
+        expect(response.status).to.eql(200)
+        expect(response.body.public_key).to.eql("working")
+    })
+
+    it('return 200, with public_key, store_messages fields', async ()=>{
+        const response = await request
+        .put('/api/user/settings')
+        .set('Accept', 'application/json')
+        .send({address:cred.address, password:cred.password, update:{public_key: "another one", store_messages: false}})
+
+        expect(response.status).to.eql(200)
+        expect(response.body.public_key).to.eql("another one")
+        expect(response.body.store_messages).to.eql(false)
+    })
+})
 })
