@@ -103,6 +103,12 @@ describe('Login /api/login API endpoint', ()=>{
 })
 
 describe('Public key record /api/record/:address', ()=>{
+    it('return 404, cannot GET /api/record/', async ()=>{
+        const response = await request
+        .get('/api/record')
+
+        expect(response.status).to.eql(404)
+    })
     it('return 400, wrong address', async ()=>{
         const response = await request
         .get('/api/record/0xCODE')
@@ -127,10 +133,20 @@ describe('Public key record /api/record/:address', ()=>{
     })
 
 describe("User settings updating /api/user/settings", ()=>{
-    it('return 400, wrong cred', async ()=>{
+    it('return 400, wrong address', async ()=>{
         const response = await request
         .put('/api/user/settings')
         .set('Accept', "application/json")
+        .send({address:"0xAnythingLol", password:cred.password})
+
+        expect(response.status).to.eql(400)
+        expect(response.body.error).to.eql("this address doesnt exist")
+    })
+
+    it('return 400, wrong password', async ()=>{
+        const response = await request
+        .put('/api/user/settings')
+        .set('Accept', 'application/json')
         .send({address:cred.address, password:"blahblah"})
 
         expect(response.status).to.eql(400)
