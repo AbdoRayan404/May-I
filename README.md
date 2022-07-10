@@ -10,6 +10,15 @@ May I? is a User-To-User Encrypted messaging App. where you can send Encrypted M
 - [Usage](https://github.com/Terry-404/May-I/blob/main/Docs.md)
 
 # How to use
+## Running tests
+for api endpoint tests
+```bash
+mocha npx api.js
+```
+for sql injection tests
+```bash
+mocha npx sql.js
+```
 ## Microservices Dockerfile
 Install
 ```bash

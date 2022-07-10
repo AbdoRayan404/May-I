@@ -121,3 +121,4 @@ extends WS.WebSocket{
 ```
 ### Some Technical choices explained.
 **input Checks** in terms to check the input for any SQL injection i had an idea to make it quick and easy to implement. my idea was to prevent any Misc characters except Alphabet and numbers and space, so even if a user just started Writing "SELECT FROM ..." nothing will happen because those statments he will inject it will stay inside the quotes where the postgreSQL will not take it as SQL statemnts. so my focus here was to prevent playing with the quotes because that will be the only way for an injection from my POV.
+**Automated SQL injection tests** please note that these tests are not that reliable if you want 100% secure SQL, if you really want that i suggest you to do it manually and analyse the SQL written in the code, :D 
