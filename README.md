@@ -2,12 +2,11 @@
 May I? is a User-To-User Encrypted messaging App. where you can send Encrypted Messages safely.
 
 # Live webistes
-- [User Microservice](https://mayiuserms.herokuapp.com/) note: check [Usage](https://github.com/Terry-404/May-I/blob/main/Docs.md) to understand what to do
+- [User Microservice](https://mayiuserms.herokuapp.com/) note: check [docs](https://github.com/Terry-404/May-I/blob/main/docs.md) to understand what to do
 - [Messages Microservice](https://mayimessagesms.herokuapp.com/) check docs !
 
 # Map
-- [Technical Explanation](https://github.com/Terry-404/May-I/blob/main/Technical.md)
-- [Usage](https://github.com/Terry-404/May-I/blob/main/Docs.md)
+- [docs](https://github.com/Terry-404/May-I/blob/main/docs.md)
 
 # How to use
 ## Running tests
