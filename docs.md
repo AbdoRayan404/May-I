@@ -36,7 +36,7 @@ extends WS.WebSocket{
 ```
 ### PostgreSQL Schema
 ![postgresql](https://user-images.githubusercontent.com/44875260/179971748-58792e72-8dfe-4a25-b41d-849dbdd6e508.png)
-<br>**Profile**
+<br>**profile**
 ```SQL
 CREATE TABLE profile(
   address varchar(255) PRIMARY KEY,
@@ -47,6 +47,23 @@ CREATE TABLE profile(
   profile_picture varchar(255) NOT NULL,
   public_key varchar(255) NOT NULL,
   joined_at date NOT NULL
+);
+```
+<br>**settings**
+```SQL
+CREATE TABLE settings(
+  address varchar(255),
+  store_messages boolean DEFAULT FALSE,
+  FOREIGN KEY (address) REFERENCES profile(address)
+);
+```
+<br>**contacts**
+```SQL
+CREATE TABLE contacts(
+  address varchar(255),
+  contact_address varchar(255),
+  FOREIGN KEY (address) REFERENCES profile(address),
+  FOREIGN KEY(contact_address) REFERENCES profile(address)
 );
 ```
 
@@ -111,6 +128,7 @@ Note: this is not JSON it's psuedo JSON so RSA is just a String but it must fit 
  !password:String
 }
 ```
+if the user has store_messages on, then there will be stored_messages field, if not then, it will return the same as below but without stored_messages field
 **Returns**
 ```js
 {
@@ -119,6 +137,7 @@ Note: this is not JSON it's psuedo JSON so RSA is just a String but it must fit 
  bio:String,
  profile_picture:Link,
  public_key:RSA,
+ joined_at,
  contacts:[Address],
  stored_messages:{
   incoming:[{

@@ -12,11 +12,11 @@ May I? is a User-To-User Encrypted messaging App. where you can send Encrypted M
 ## Running tests
 for api endpoint tests
 ```bash
-mocha npx api.js
+npx mocha api.js
 ```
 for sql injection tests
 ```bash
-mocha npx sql.js
+npx mocha sql.js
 ```
 ## Microservices Dockerfile
 Install
