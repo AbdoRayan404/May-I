@@ -36,6 +36,19 @@ extends WS.WebSocket{
 ```
 ### PostgreSQL Schema
 ![postgresql](https://user-images.githubusercontent.com/44875260/179971748-58792e72-8dfe-4a25-b41d-849dbdd6e508.png)
+<br>**Profile**
+```SQL
+CREATE TABLE profile(
+  address varchar(255) PRIMARY KEY,
+  username varchar(36) NOT NULL,
+  password varchar(255) NOT NULL,
+  salt varchar(255) NOT NULL,
+  bio varchar(255) DEFAULT 'Hello i am new Here.' NOT NULL,
+  profile_picture varchar(255) NOT NULL,
+  public_key varchar(255) NOT NULL,
+  joined_at date NOT NULL
+);
+```
 
 ### MongoDB Schema
 **pending messages model**
@@ -192,6 +205,27 @@ Here it will return the fields you gave so if you gave only bio, you will get bi
  updated:{
   field:{before:, After}
  }
+}
+```
+<br><br>
+`POST /user/contact/add` restricted. require valid address & password.<br>
+**Takes**
+```js
+{
+ !address:Address,
+ !password:String,
+ !contact:Address
+}
+```
+**Returns**
+```js
+{
+ address:Address,
+ public_key:RSA,
+ username:String,
+ bio:String,
+ profile_picture:Link,
+ joined_at:Date
 }
 ```
 ![rest client](https://humao.gallerycdn.vsassets.io/extensions/humao/rest-client/0.24.6/1638197435436/Microsoft.VisualStudio.Services.Icons.Default)
