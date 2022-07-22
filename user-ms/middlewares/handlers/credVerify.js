@@ -5,7 +5,7 @@ async function verify(req, res, next){
 
     //Hash password
     try{
-        const salt = await pool.query(`SELECT salt FROM users WHERE address = '${req.body.address}'`)
+        const salt = await pool.query(`SELECT salt FROM profile WHERE address = '${req.body.address}'`)
         if(salt.rowCount == 1){
             req.body.password = await bcrypt.hash(req.body.password, salt.rows[0]['salt'])
         }else{
@@ -14,11 +14,12 @@ async function verify(req, res, next){
         }
     }catch(err){
         console.error(err)
+        res.status(500).json({error:"there was an error returing your hash"})
     }
     
     //Check if hash is correct
     try{
-        const hashCheck = await pool.query(`SELECT password = '${req.body.password}' FROM users WHERE address = '${req.body.address}'`)
+        const hashCheck = await pool.query(`SELECT password = '${req.body.password}' FROM profile WHERE address = '${req.body.address}'`)
         if(hashCheck.rowCount == 1){
             if(hashCheck.rows[0]['?column?'] == true){
                 next()
