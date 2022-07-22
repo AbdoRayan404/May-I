@@ -20,7 +20,7 @@ const { PORT } = require('./config/env');
 //routes
 app.use(logger)
 app.use(miscCheck)
-app.use('/api/record/:address', rateLimiter, record)
+app.get('/api/record/:address', rateLimiter, record)
 app.use('/api/', rateLimiter, userRouter)
 app.use(errHandle)
 
